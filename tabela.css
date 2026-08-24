@@ -1,0 +1,16 @@
+body
+{
+    background-color: black;
+    color: white;
+}
+table
+{
+    border: solid white 1px;
+}
+table td
+{
+    border: solid white 1px;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}

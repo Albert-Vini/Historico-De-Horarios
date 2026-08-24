@@ -1,0 +1,253 @@
+/* --- VARIÁVEIS DO PROJETO --- */
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e2e;
+  --nav-bg: #2a2a3c;
+  --nav-hover: #3b3b54;
+  
+  --play-color: #1ed760;
+  --play-hover: #23c960;
+  --stop-color: #e82626;
+  --stop-hover: #b31d1d;
+  
+  --text-color: #ffffff;
+  --border-color: #33334d;
+  --radius-lg: 16px;
+  --radius-md: 8px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- RESET & BASE --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+/* --- MENU DE NAVEGAÇÃO --- */
+nav {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 15px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  list-style: none;
+}
+
+nav li {
+  flex: 1;
+  max-width: 180px;
+  background-color: var(--nav-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 12px 16px;
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+nav li:hover {
+  background-color: var(--nav-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* --- CARD PRINCIPAL (.BOX) --- */
+.box {
+  width: 100%;
+  max-width: 420px; /* Tamanho elegante para PC */
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
+}
+
+/* --- BOTÕES RESPONSIVOS & EFEITOS --- */
+.box .botao-play,
+.box .botao-stop {
+  /* Tamanho dinâmico: escala no celular, trava no valor ideal no PC */
+  width: clamp(7.5rem, 25vw, 9.5rem);
+  height: clamp(7.5rem, 25vw, 9.5rem);
+  
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 20px;
+  
+  /* Animações e Sombra */
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background-color 0.2s ease, 
+              box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.box .botao-play {
+  background-color: var(--play-color);
+  box-shadow: 0 0 20px rgba(30, 215, 96, 0.3);
+}
+
+.box .botao-play:hover {
+  transform: scale(1.08);
+  background-color: var(--play-hover);
+  box-shadow: 0 0 30px rgba(35, 201, 96, 0.5);
+}
+
+.box .botao-stop {
+  background-color: var(--stop-color);
+  box-shadow: 0 0 20px rgba(232, 38, 38, 0.3);
+}
+
+.box .botao-stop:hover {
+  transform: scale(1.08);
+  background-color: var(--stop-hover);
+  box-shadow: 0 0 30px rgba(179, 29, 29, 0.5);
+}
+
+.box .botao-play:active,
+.box .botao-stop:active {
+  transform: scale(0.95);
+}
+
+/* --- ÍCONES INTERNOS --- */
+.box .play-icon {
+  width: 0;
+  height: 0;
+  border-top: 1.2rem solid transparent;
+  border-bottom: 1.2rem solid transparent;
+  border-left: 2rem solid #ffffff;
+  margin-left: 5px; /* Centralização visual */
+}
+
+.box .stop-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: #ffffff;
+  border-radius: 4px;
+}
+/*Botoes*/
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nav-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 15px;
+}
+
+/* Efeito ao passar o mouse */
+.botao:hover {
+  background-color: var(--nav-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Efeito ao clicar */
+.botao:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* --- ESTILIZAÇÃO E CORREÇÃO DO SCROLL DA TABELA --- */
+#tabela {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+  
+  /* CORREÇÃO DO SCROLL: 'auto' só exibe a barra se a tabela estourar a tela */
+  overflow-x: auto; 
+  
+  /* Suaviza a rolagem em dispositivos touch */
+  -webkit-overflow-scrolling: touch; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-sizing: border-border-box;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  
+  /* Evita que o texto quebre linhas de forma estranha */
+  white-space: nowrap; 
+}
+
+th {
+  background-color: var(--nav-bg);
+  font-weight: 600;
+}
+
+.celulaDividida {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+/* --- REGRA RESPONSIVA PARA CELULARES (Até 500px) --- */
+@media (max-width: 500px) {
+  nav ul {
+    flex-direction: column;
+  }
+
+  nav li {
+    max-width: 100%;
+  }
+
+  .box {
+    padding: 1.8rem 1rem;
+  }
+}
