@@ -92,6 +92,7 @@ nav li:hover {
   justify-content: center;
   backdrop-filter: blur(10px);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 /* --- BOTÕES RESPONSIVOS & EFEITOS --- */
@@ -159,6 +160,7 @@ nav li:hover {
   background-color: #ffffff;
   border-radius: 4px;
 }
+
 /*Botoes*/
 .botao {
   display: inline-flex;
