@@ -1,33 +1,32 @@
 const chaveArray = "HorariosSave";
-const chaveLength = "KeyLength";
 const chaveActivate = "KeyBool";
 const versaoData = "DataVersion";
+const modo = "modoLight";
 
 //---------------------------Codigos de gerenciamento do historico de horario
 ///limpa o historico de senhas
 function clearHistory() {
-    localStorage.setItem("HorariosSave", JSON.stringify([]));
-    localStorage.setItem("KeyLength", JSON.stringify(0));
-    localStorage.setItem("KeyBool", JSON.stringify(false));
+    localStorage.setItem(chaveArray, JSON.stringify([]));
+    localStorage.setItem(chaveActivate, JSON.stringify(false));
     localStorage.setItem(versaoData, JSON.stringify(1));
     location.reload();
 }
 
-///Abre o historico de horarios
+///Abre as informações da pagina
 function openHistory() {
     array = JSON.parse(localStorage.getItem(chaveArray)) || [];
-    tamanho = JSON.parse(localStorage.getItem(chaveLength)) || 0;
     boolean = JSON.parse(localStorage.getItem(chaveActivate)) || false;
     version = JSON.parse(localStorage.getItem(versaoData)) || 1;
-    return { array, tamanho, boolean, version };
+    light = JSON.parse(localStorage.getItem(modo)) || 0;
+    return { array, boolean, version, light };
 }
 
 ///Salva o historico de horarios
-function saveHistory(array, tamanho, boolean, version) {
+function saveHistory(array, boolean, version, light) {
     localStorage.setItem(chaveArray, JSON.stringify(array));
-    localStorage.setItem(chaveLength, JSON.stringify(tamanho));
     localStorage.setItem(chaveActivate, JSON.stringify(boolean));
     localStorage.setItem(versaoData, JSON.stringify(version));
+    localStorage.setItem(modo, JSON.stringify(light));
 }
 
 ///Verifica os horarios
@@ -50,16 +49,15 @@ function tempo() {
 
 //Adiciona no array o tempo atual
 function saveTime() {
-    let { array: horarios, tamanho, boolean: activate, version } = openHistory();
+    let { array: horarios, boolean: activate, version , light } = openHistory();
     if (!activate) {
         horarios.push([tempo()]);
-        tamanho++;
     }
     else {
-        horarios[tamanho - 1].push(tempo());
+        horarios[horarios.length - 1].push(tempo());
     }
     activate = !activate;
-    saveHistory(horarios, tamanho, activate, version);
+    saveHistory(horarios, activate, version, light);
     return activate;
 }
 
@@ -84,16 +82,76 @@ function updateButton(activate) {
 
     if (activate) {
         botao.className = "botao-stop";
-        icone.className = "stop-icon"
+        icone.className = "stop-icon";
     }
     else {
         botao.className = "botao-play";
-        icone.className = "play-icon"
+        icone.className = "play-icon";
     }
 }
 
+// Retorna, se for um numero, uma string de tamanho 2 ou mais
+function fN(Num){
+    return isNaN(Num) ? Num : (String(Num).padStart(2,"0"));
+}
+
+//Função pra mudar o estilo da pagina
+function mudarEstilo(estilo, variaveis){
+    Object.entries(variaveis).forEach(([variavel, valor]) => estilo.setProperty(variavel,valor));
+}
+
+if(document.getElementById("MudarTema"))
+{
+    if(openHistory().light =="1") definirTema(1);
+    else definirTema(0);
+    const botao = document.getElementById("MudarTema");
+    botao.onclick = function() 
+    {
+        let light = openHistory().light;
+        Number(light);
+        definirTema(!Number(light));
+    }
+}
+
+function definirTema(light)
+{
+    const botao = document.getElementById("MudarTema");
+    const styleCha = document.documentElement.style;
+    if(light == 1)
+    {
+        let white = {
+            "--bg-color": "#f8f8f8",
+            "--card-bg": "#d0d0d1",
+            "--nav-bg": "#c1c1c1",
+            "--nav-hover": "#3b3b54",
+            "--text-color": "#000000",
+            "--border-color": "#aeaeaf",
+            "--shadow": "0 10px 30px #9f9f9f"
+        }
+        mudarEstilo(styleCha,white);
+        botao.textContent = "Mudar tema ☀️";
+    }
+    else
+    {
+        let black = {
+            "--bg-color": "#121212",
+            "--card-bg": "#1e1e2e",
+            "--nav-bg": "#2a2a3c",
+            "--nav-hover": "#3b3b54",
+            "--text-color": "#ffffff",
+            "--border-color": "#33334d",
+            "--shadow": "0 10px 30px rgba(0, 0, 0, 0.5)"
+        }
+        mudarEstilo(styleCha,black);
+        botao.textContent = "Mudar tema 🌒";
+    }
+    localStorage.setItem(modo, JSON.stringify(light));
+}
+//-------------------------------Funcoes Especiais para cada pagina
+
 //Funcoes da pagina Principal
 if (document.getElementById("principal")) {
+    let botao = document.getElementById("botao");
     let dataHistory = openHistory()
     updateButton(dataHistory.boolean);
     botao.onclick = function () {
@@ -107,7 +165,6 @@ if(document.getElementById("tabela")){
     const clearButton = document.getElementById("clearHistory");
     let {array} = openHistory();
     creatTable(array);
-    
     function creatTable(array) {
         const tBody = document.getElementById("TabelaHorario");
         array.forEach((element,indice) => {
@@ -138,10 +195,10 @@ if(document.getElementById("tabela")){
         });
     }
 
-    clearButton.onclick = function(){clearHistory();}
-
-}
-
-function fN(Num){
-    return isNaN(Num) ? Num : (String(Num).padStart(2,"0"));
+    clearButton.onclick = function(){
+        let senha = window.prompt("Confirme a limpeza digitando `Sim` da mesma forma:");
+        if(senha == "Sim"){
+            clearHistory();
+        }
+    }
 }

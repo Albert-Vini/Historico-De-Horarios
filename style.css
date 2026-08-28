@@ -200,11 +200,7 @@ nav li:hover {
   width: 100%;
   max-width: 800px;
   margin: 20px auto 0 auto;
-  
-  /* CORREÇÃO DO SCROLL: 'auto' só exibe a barra se a tabela estourar a tela */
   overflow-x: auto; 
-  
-  /* Suaviza a rolagem em dispositivos touch */
   -webkit-overflow-scrolling: touch; 
 }
 
@@ -216,6 +212,7 @@ table {
   overflow: hidden;
   border: 1px solid var(--border-color);
   box-sizing: border-border-box;
+  border-radius: var(--radius-md);
 }
 
 th, td {
